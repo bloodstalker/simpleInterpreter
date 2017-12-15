@@ -1,8 +1,9 @@
 TARGET=qlabInterpreter
 CXX=clang++
 CXX?=clang++
-# you should change the include path to one that is right for you
-CXX_FLAGS=-I/usr/lib/gcc/x86_64-redhat-linux/6.3.1/include -std=c++11
+CXX_FLAGS=-std=c++11
+CXX_EXTRA?=
+CXX_FLAGS+=$(CXX_EXTRA)
 
 .DEFAULT:all clean
 
@@ -20,6 +21,6 @@ clean:
 	rm -f *.o *~ $(TARGET)
 
 help:
-	@echo "the makfile for the bruiser test file."
+	@echo "the makfile for a very simple stack-machine interpreter."
 	@echo "there is the taget itself, all and clean."
 
