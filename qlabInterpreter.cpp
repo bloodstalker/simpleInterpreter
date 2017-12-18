@@ -149,7 +149,7 @@ class Interpreter {
 };
 
 int main(int argc, char** argv) {
-  if (argc != 2) {std::cout << "did not provide an input file to ran on...";}
+  if (argc != 2) {std::cout << "did not provide an input file to run on...";}
   else {
     Interpreter interpreter(text2hex(argv[1]));
     interpreter.run();
