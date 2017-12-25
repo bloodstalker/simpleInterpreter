@@ -23,4 +23,3 @@ clean:
 help:
 	@echo "the makfile for a very simple stack-machine interpreter."
 	@echo "there is the taget itself, all and clean."
-
