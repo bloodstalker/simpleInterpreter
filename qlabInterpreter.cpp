@@ -10,11 +10,12 @@
 
 // imaginary opcodes
 #define PUSH    0xf1
-#define DUP     0xf2 
+#define DUP     0xf2
 #define ADD     0xf3
 #define MUL     0xf4
 #define READ    0xf5
 #define WRITE   0xf6
+#define JMP     0xf7
 
 /**
  * @brief Finds and returns an int inside another string
@@ -90,18 +91,18 @@ class Interpreter {
             i = i + 4;
             break;
           case DUP:
-            this->checkStack(1);
+            if (!this->checkStack(1)) {return void();}
             dummy_reg1 = stack_.back();
             stack_.push_back(dummy_reg1);
             break;
           case ADD:
-            this->checkStack(2);
+            if (!this->checkStack(2)) {return void();};
             dummy_reg2 = stack_.back(), stack_.pop_back();
             dummy_reg1 = stack_.back(), stack_.pop_back();
             stack_.push_back(uint32_t(dummy_reg1 + dummy_reg2));
             break;
           case MUL:
-            this->checkStack(2);
+            if (!this->checkStack(2)) {return void();};
             dummy_reg2 = stack_.back(), stack_.pop_back();
             dummy_reg1 = stack_.back(), stack_.pop_back();
             stack_.push_back(uint32_t(dummy_reg1 + dummy_reg2));
@@ -111,10 +112,15 @@ class Interpreter {
             stack_.push_back(dummy_reg1);
             break;
           case WRITE:
-            this->checkStack(1);
+            if (this->checkStack(1)) {return void();};
             dummy_reg1 = stack_.back(), stack_.pop_back();
             std::cout << dummy_reg1 << "\n";
             break;
+          case JMP:
+            if (this->checkStack(1)) {return void();};
+            dummy_reg1 = stack_.back(), stack_.pop_back();
+            if (i + dummy_reg1 > bytecode_.size())
+            i =+ dummy_reg1 - 1;
           default:
             throw std::runtime_error("unknown opcode.\n");
             break;
